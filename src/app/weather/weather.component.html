@@ -1,0 +1,56 @@
+<div fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start" style="margin-left:10%; ">
+   <div class=".mat-headline mat-elevation-z4" id="header">
+      <h1>! Open Weather Map</h1>
+   </div>
+   <ng-container  *ngFor="let search of searchs; let i = index">
+      <div  fxFlex="0 1 auto" >
+         <div class="container" id = "grid">
+            <div fxLayout="row">
+               <div fxFlex></div>
+               <mat-card id="changeGrid" class="mat-elevation-z4" fxFlex="300px" >
+                  <mat-card-header>
+                     <mat-card-title>
+                        <div class="mat-headline">Check Weather {{i}} {{show[i]}} {{active[i]}}</div>
+                        <form class="example-form" style="margin-bottom: 32px" (ngSubmit)="onSubmit(i)">
+                           <mat-icon *ngIf="!show[i] "  matPrefix style="margin:4px; font-size: 20px; ">search</mat-icon>
+                           <mat-form-field [attr.disabled] = "show[i] ? '' : null">
+                              <input matInput placeholder="Enter city"  id="l{{i}}"   [formControl]="search" aria-required="true" [attr.disabled] = "show[i] ? '' : null" />
+                              <mat-error *ngIf="search.invalid"> Type more than one character to search </mat-error>
+                           </mat-form-field>
+                           <mat-icon style ="margin:4px; font-size: 20px; cursor: pointer;"  matTooltip="Info about the action" (click)="onSubmit(i)" *ngIf="show[i] && active[i]">edit</mat-icon>
+                        </form>
+                     </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                     <div *ngIf="show[i]">
+                        <div class="container" *ngIf="errorMsg[i]; else elseblock">
+                           <h3>{{errorMsg[i]}}</h3>
+                        </div>
+                        <ng-template #elseblock>
+                           <div fxLayout="row">
+                              <div fxFlex="66%" class="mat-title no-margin">
+                                 {{ cityCard[i].get("city") }}, {{ cityCard[i].get("country") }}
+                              </div>
+                           </div>
+                           <div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: -48px;">
+                              <div fxFlex="55%">
+                                 <img style="zoom: 175%; margin-bottom: 32px;" [src]="cityCard[i].get('image')" />
+                              </div>
+                              <div fxFlex class="right no-margin">
+                                 <p class="mat-display-1">
+                                    {{ cityCard[i].get("temp") | number: '1.0-0' }}
+                                    <span class="mat-display-1 unit">&#8457;</span>
+                                 </p>
+                              </div>
+                           </div>
+                           <div fxLayoutAlign="center " style = "font-weight: 200;" class=".mat-body-strong"><strong>{{ cityCard[i].get("main") }}</strong></div>
+                        </ng-template>
+                     </div>
+                  </mat-card-content>
+               </mat-card>
+               <div fxFlex></div>
+            </div>
+         </div>
+      </div>
+   </ng-container>
+</div>
