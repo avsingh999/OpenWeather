@@ -39,7 +39,14 @@ export class WeatherComponent implements OnInit {
             if (k >= localStorage.length) {
                 break;
             }
-            this.setData(JSON.parse(localStorage[j]), parseInt(j));
+            this.logMessage(localStorage[j], this.cityCard[parseInt(j)], parseInt(j))
+            this.searchs[parseInt(j)].setValue(localStorage[j]);
+            // (this.cityCard[i]) = cityData;
+            // console.log(this.cityCard)
+            this.show[parseInt(j)] = !this.show[parseInt(j)];
+            this.searchs[parseInt(j)].markAsTouched();
+
+            // this.setData(JSON.parse(localStorage[j]), parseInt(j));
             k++;
         }
     }
@@ -104,8 +111,10 @@ export class WeatherComponent implements OnInit {
                     cityData.set("image", "http://openweathermap.org/img/w/" + emp[1][0]["icon"] + ".png");
 
                     (this.cityCard[index]) = cityData;
-                    localStorage.setItem(index, JSON.stringify(emp));
+                    console.log(this.searchs)
 
+                    localStorage.setItem(index, emp[10]);
+                    // console.log("****************")
                     if (!cityData.get("country"))
                         this.errorMsg[index] = "please try again there is Somthing wrong";
                     else
