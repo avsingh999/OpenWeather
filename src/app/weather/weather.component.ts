@@ -41,12 +41,8 @@ export class WeatherComponent implements OnInit {
             }
             this.logMessage(localStorage[j], this.cityCard[parseInt(j)], parseInt(j))
             this.searchs[parseInt(j)].setValue(localStorage[j]);
-            // (this.cityCard[i]) = cityData;
-            // console.log(this.cityCard)
             this.show[parseInt(j)] = !this.show[parseInt(j)];
             this.searchs[parseInt(j)].markAsTouched();
-
-            // this.setData(JSON.parse(localStorage[j]), parseInt(j));
             k++;
         }
     }
@@ -79,7 +75,7 @@ export class WeatherComponent implements OnInit {
         this.errorMsg.push('');
         this.searchs.forEach((value, index) => {
             console.log(value);
-            value.valueChanges.pipe(debounceTime(10)).subscribe((searchValue: string) => {
+            value.valueChanges.pipe(debounceTime(1000)).subscribe((searchValue: string) => {
                 if (searchValue) {
                     this.logMessage(searchValue, this.cityCard[index], index)
                 } else {
@@ -112,9 +108,8 @@ export class WeatherComponent implements OnInit {
 
                     (this.cityCard[index]) = cityData;
                     console.log(this.searchs)
-
-                    localStorage.setItem(index, emp[10]);
-                    // console.log("****************")
+                    if(index<9)
+                        localStorage.setItem(index, emp[10]);
                     if (!cityData.get("country"))
                         this.errorMsg[index] = "please try again there is Somthing wrong";
                     else
@@ -132,34 +127,34 @@ export class WeatherComponent implements OnInit {
             this.nameDisplay[e] = this.searchs[e].value;
         }
     }
-    setData(data: Object, i: number) {
-        let emp = Object.keys(data).map(e => data[e]);
-        if (!!emp[8]["country"]) {
-            let cityData = new Map();
-            cityData.set("id", emp[1][0]["id"])
-            cityData.set("main", emp[1][0]["main"])
-            cityData.set("temp", emp[3]["temp"]);
-            cityData.set("pressure", emp[3]["pressure"]);
-            cityData.set("humidity", emp[3]["humidity"]);
-            cityData.set("speed", emp[5]["speed"]);
-            cityData.set("country", emp[8]["country"]);
-            cityData.set("city", emp[10]);
-            cityData.set("image", "http://openweathermap.org/img/w/" + emp[1][0]["icon"] + ".png");
-            this.nameDisplay[i] = cityData.get("city");
-            console.log(this.nameDisplay[i]);
-            this.searchs[i].setValue(this.nameDisplay[i]);
-            (this.cityCard[i]) = cityData;
-            console.log(this.cityCard)
-            this.show[i] = !this.show[i];
-            this.searchs[i].markAsTouched();
-            this.active[i] = true;
-        }
-    }
+    // setData(data: Object, i: number) {
+    //     let emp = Object.keys(data).map(e => data[e]);
+    //     if (!!emp[8]["country"]) {
+    //         let cityData = new Map();
+    //         cityData.set("id", emp[1][0]["id"])
+    //         cityData.set("main", emp[1][0]["main"])
+    //         cityData.set("temp", emp[3]["temp"]);
+    //         cityData.set("pressure", emp[3]["pressure"]);
+    //         cityData.set("humidity", emp[3]["humidity"]);
+    //         cityData.set("speed", emp[5]["speed"]);
+    //         cityData.set("country", emp[8]["country"]);
+    //         cityData.set("city", emp[10]);
+    //         cityData.set("image", "http://openweathermap.org/img/w/" + emp[1][0]["icon"] + ".png");
+    //         this.nameDisplay[i] = cityData.get("city");
+    //         console.log(this.nameDisplay[i]);
+    //         this.searchs[i].setValue(this.nameDisplay[i]);
+    //         (this.cityCard[i]) = cityData;
+    //         console.log(this.cityCard)
+    //         this.show[i] = !this.show[i];
+    //         this.searchs[i].markAsTouched();
+    //         this.active[i] = true;
+    //     }
+    // }
 
     ngOnInit() {
         this.searchs.forEach((value, index) => {
             console.log(value);
-            value.valueChanges.pipe(debounceTime(10)).subscribe((searchValue: string) => {
+            value.valueChanges.pipe(debounceTime(1000)).subscribe((searchValue: string) => {
                 if (searchValue) {
                     this.logMessage(searchValue, this.cityCard[index], index)
                 } else {
